@@ -26,7 +26,17 @@ function updateBlogPage() {
     // Here, we are just logging the update for demonstration purposes
     console.log("Blog page updated");
 }
-<button id="addBlogPostButton">Add Blog Post</button>
+
+// Function to handle the click event of the "Add Blog Post" button
+function handleAddBlogPostClick() {
+    const title = "New Blog Post";
+    const content = "This is the content of the new blog post.";
+    addBlogPost(title, content);
+}
+
+// Add event listener to the "Add Blog Post" button
+const addBlogPostButton = document.getElementById("addBlogPostButton");
+addBlogPostButton.addEventListener("click", handleAddBlogPostClick);
 
 // Example usage
 addBlogPost("My First Blog Post", "This is the content of my first blog post.");
