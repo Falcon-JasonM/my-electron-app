@@ -1,59 +1,58 @@
 /* CSS styles for the blog */
-
-.blog {
+body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 
-.blog-header {
+header {
     background-color: #280202;
     color: #fff;
     padding: 20px;
     text-align: center;
 }
 
-.blog-nav {
+nav {
     background-color: #333;
     color: #fff;
     padding: 10px;
     text-align: center;
 }
 
-.blog-nav a {
+nav a {
     color: #fff;
     text-decoration: none;
     margin: 0 10px;
 }
 
-.blog-main {
+main {
     margin: 20px;
 }
 
-.blog-article {
+article {
     margin-bottom: 20px;
 }
 
-.blog-h2 {
+h2 {
     color: #333;
 }
 
-.blog-p {
+p {
     line-height: 1.5;
 }
 
-.blog-form {
+form {
     margin-top: 20px;
 }
 
-.blog-input,
-.blog-textarea {
+input,
+textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
 }
 
-.blog-button {
+button {
     background-color: #333;
     color: #fff;
     padding: 10px 20px;
@@ -61,7 +60,7 @@
     cursor: pointer;
 }
 
-.blog-footer {
+footer {
     background-color: #333;
     color: #fff;
     padding: 20px;
