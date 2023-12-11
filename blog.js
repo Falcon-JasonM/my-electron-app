@@ -9,6 +9,24 @@ function addBlogPost(title, content) {
     blogPosts.push(blogPost);
     // Call a function to update the blog page with the new post
     updateBlogPage();
+
+    // Make an asynchronous call to an AWS Lambda function with the new blog post in JSON format
+    const lambdaFunctionName = "your-lambda-function-name";
+    const lambdaPayload = JSON.stringify(blogPost);
+
+    fetch(`https://your-lambda-function-endpoint.amazonaws.com/${lambdaFunctionName}`, {
+        method: "POST",
+        body: lambdaPayload
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle the response from the Lambda function
+        console.log("AWS Lambda response:", data);
+    })
+    .catch(error => {
+        // Handle any errors that occurred during the request
+        console.error("Error:", error);
+    });
 }
 
 // Function to post an image
