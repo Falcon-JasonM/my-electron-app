@@ -1,7 +1,7 @@
 // Function to add a blog post
+
 function addBlogPost(title, content) {
-    // Code to add the blog post to the database or storage
-    // For example, you can use an array to store the blog posts
+    // Use an array to store the blog posts
     const blogPost = {
         title: title,
         content: content
@@ -18,14 +18,30 @@ function addBlogPost(title, content) {
         method: "POST",
         body: lambdaPayload
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
-        // Handle the response from the Lambda function
+        populateBlogs(data);
+    })
+    .catch(error => {
+        // Handle any errors that occurred during the request
+        console.error("Error:", error);
+    });
+}
+
+//Function to call the AWS Lambda function with http get method and return array of blog posts
+function populateBlogs(data) {
+    try {
+        // Make an asynchronous call to an AWS Lambda function with the new blog post in JSON format
         console.log("AWS Lambda response:", data);
         let blogPosts = JSON.parse(data);
-        array.forEach(blogPost => {
+        blogPosts.forEach(blogPost => {
             // Manipulate the DOM to add a new article to blog.html for each blog post
-            // For example, you can use the following code to add a new <article> to the blog page for each blog post
+            // Add a new <article> to the blog page for each blog post
             const blogContainer = document.getElementById("blogContainer");
             const newBlogPost = document.createElement("article");
             newBlogPost.classList.add("blog-post");
@@ -36,36 +52,13 @@ function addBlogPost(title, content) {
             newBlogPost.appendChild(titleElement);
             newBlogPost.appendChild(contentElement);
             blogContainer.appendChild(newBlogPost);
-
         });
-
-    })
-    .catch(error => {
-        // Handle any errors that occurred during the request
+    } catch (error) {
+        // Handle any errors that occurred during parsing or DOM manipulation
         console.error("Error:", error);
-    });
+    }
 }
 
-//Function to call the AWS Lambda function with http get method and return array of blog posts
-function getBlogPosts() {
-    // Make an asynchronous call to an AWS Lambda function with the new blog post in JSON format
-    const lambdaFunctionName = "your-lambda-function-name";
-    const lambdaPayload = JSON.stringify(blogPost);
-
-    fetch(`https://your-lambda-function-endpoint.amazonaws.com/${lambdaFunctionName}`, {
-        method: "GET",
-        body: lambdaPayload
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Handle the response from the Lambda function
-        console.log("AWS Lambda response:", data);
-    })
-    .catch(error => {
-        // Handle any errors that occurred during the request
-        console.error("Error:", error);
-    });
-}
 
 
 // Function to post an image
