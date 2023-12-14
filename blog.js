@@ -22,12 +22,51 @@ function addBlogPost(title, content) {
     .then(data => {
         // Handle the response from the Lambda function
         console.log("AWS Lambda response:", data);
+        let blogPosts = JSON.parse(data);
+        array.forEach(blogPost => {
+            // Manipulate the DOM to add a new article to blog.html for each blog post
+            // For example, you can use the following code to add a new <article> to the blog page for each blog post
+            const blogContainer = document.getElementById("blogContainer");
+            const newBlogPost = document.createElement("article");
+            newBlogPost.classList.add("blog-post");
+            const titleElement = document.createElement("h2");
+            titleElement.textContent = blogPost.title;
+            const contentElement = document.createElement("p");
+            contentElement.textContent = blogPost.content;
+            newBlogPost.appendChild(titleElement);
+            newBlogPost.appendChild(contentElement);
+            blogContainer.appendChild(newBlogPost);
+
+        });
+
     })
     .catch(error => {
         // Handle any errors that occurred during the request
         console.error("Error:", error);
     });
 }
+
+//Function to call the AWS Lambda function with http get method and return array of blog posts
+function getBlogPosts() {
+    // Make an asynchronous call to an AWS Lambda function with the new blog post in JSON format
+    const lambdaFunctionName = "your-lambda-function-name";
+    const lambdaPayload = JSON.stringify(blogPost);
+
+    fetch(`https://your-lambda-function-endpoint.amazonaws.com/${lambdaFunctionName}`, {
+        method: "GET",
+        body: lambdaPayload
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Handle the response from the Lambda function
+        console.log("AWS Lambda response:", data);
+    })
+    .catch(error => {
+        // Handle any errors that occurred during the request
+        console.error("Error:", error);
+    });
+}
+
 
 // Function to post an image
 function postImage(imageUrl) {
