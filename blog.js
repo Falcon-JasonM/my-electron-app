@@ -26,6 +26,8 @@ function addBlogPost(title, content) {
     })
     .then(data => {
         populateBlogs(data);
+        // After successfully adding the post, fetch and display all blog posts again
+        getBlogPostsFromLambda();
     })
     .catch(error => {
         // Handle any errors that occurred during the request
@@ -71,38 +73,25 @@ function postImage(imageUrl) {
 
 // Function to update the blog page
 
-function updateBlogPage() {
-    // Code to update the blog page with the new blog posts
-    // For example, you can manipulate the DOM to add the new posts to the HTML
+function getBlogPostsFromLambda() {
+    const lambdaFunctionName = "your-lambda-function-name";
 
-    // Get the container element where the blog posts will be added
-    const blogContainer = document.getElementById("blogContainer");
-
-    // Create a new blog post element
-    const newBlogPost = document.createElement("div");
-    newBlogPost.classList.add("blog-post");
-
-    // Get the title and content of the new blog post
-    const title = blogPosts[blogPosts.length - 1].title;
-    const content = blogPosts[blogPosts.length - 1].content;
-
-    // Create the title element
-    const titleElement = document.createElement("h2");
-    titleElement.textContent = title;
-
-    // Create the content element
-    const contentElement = document.createElement("p");
-    contentElement.textContent = content;
-
-    // Append the title and content elements to the new blog post element
-    newBlogPost.appendChild(titleElement);
-    newBlogPost.appendChild(contentElement);
-
-    // Append the new blog post element to the blog container
-    blogContainer.appendChild(newBlogPost);
-
-    // Here, we are just logging the update for demonstration purposes
-    console.log("Blog page updated");
+    fetch(`https://your-lambda-function-endpoint.amazonaws.com/${lambdaFunctionName}`, {
+        method: "GET"
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        populateBlogs(data);
+    })
+    .catch(error => {
+        // Handle any errors that occurred during the request
+        console.error("Error:", error);
+    });
 }
 
 

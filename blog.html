@@ -39,5 +39,11 @@
     </footer>
     
     <script src="blog.js"></script>
+    <script>
+        // Call the function to fetch blog posts before the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            getBlogPostsFromLambda();
+        });
+    </script>
 </body>
 </html>
