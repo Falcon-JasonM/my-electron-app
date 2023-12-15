@@ -50,28 +50,35 @@ function addBlogPost(title, content) {
     });
 }
 
-//Function to call the AWS Lambda function with http get method and return array of blog posts
+
 function populateBlogs(data) {
     try {
-        // Make an asynchronous call to an AWS Lambda function with the new blog post in JSON format
-        console.log("AWS Lambda response:" + data);
-        let blogPosts = JSON.parse(data);
-        blogPosts.forEach(blogPost => {
-            // Manipulate the DOM to add a new article to blog.html for each blog post
-            // Add a new <article> to the blog page for each blog post
-            const blogContainer = document.getElementById("blogContainer");
+        console.log("AWS Lambda response: ", data); // Check the structure of the received data
+
+        const blogContainer = document.getElementById("blogContainer");
+        if (!blogContainer) {
+            throw new Error("Blog container not found in the DOM.");
+        }
+
+        // Assuming data is already an array of blog post objects
+        data.forEach(blogPost => {
+            // Create elements for each blog post
             const newBlogPost = document.createElement("article");
             newBlogPost.classList.add("blog-post");
+
             const titleElement = document.createElement("h2");
             titleElement.textContent = blogPost.title;
+
             const contentElement = document.createElement("p");
             contentElement.textContent = blogPost.content;
+
             newBlogPost.appendChild(titleElement);
             newBlogPost.appendChild(contentElement);
+
             blogContainer.appendChild(newBlogPost);
         });
     } catch (error) {
-        // Handle any errors that occurred during parsing or DOM manipulation
+        // Handle any errors that occurred during DOM manipulation
         console.error("Error:", error);
     }
 }
