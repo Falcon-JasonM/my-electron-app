@@ -1,5 +1,21 @@
-// Function to add a blog post
+document.addEventListener('DOMContentLoaded', function() {
+    getBlogPostsFromLambda();
 
+    // Event listener for the Add Blog Post button
+    const addButton = document.getElementById('addPostButton');
+    addButton.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevents the default form submission
+
+        // Get the title and content from the input fields
+        const title = document.getElementById('titleInput').value;
+        const content = document.getElementById('contentInput').value;
+
+        // Call the addBlogPost function with the obtained values
+        addBlogPost(title, content);
+    });
+});
+
+// Function to add a blog post
 function addBlogPost(title, content) {
     // Use an array to store the blog posts
     const blogPost = {
