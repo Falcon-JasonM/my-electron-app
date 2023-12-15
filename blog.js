@@ -90,9 +90,9 @@ function postImage(imageUrl) {
 // Function to update the blog page
 
 function getBlogPostsFromLambda() {
-    const lambdaFunctionName = "your-lambda-function-name";
+    const lambdaFunctionName = "RetrieveBlogPosts";
 
-    fetch(`https://axurjmgnt5woguer2ab4wwsqdu0eifrr.lambda-url.us-east-2.on.aws//${RetrieveBlogPosts}`, {
+    fetch(`https://axurjmgnt5woguer2ab4wwsqdu0eifrr.lambda-url.us-east-2.on.aws//${lambdaFunctionName}`, {
         method: "GET"
     })
     .then(response => {
@@ -111,17 +111,17 @@ function getBlogPostsFromLambda() {
 }
 
 
-// Function to handle the click event of the "Add Blog Post" button
-function handleAddBlogPostClick() {
-    const title = "New Blog Post";
-    const content = "This is the content of the new blog post.";
-    addBlogPost(title, content);
-}
+// // Function to handle the click event of the "Add Blog Post" button
+// function handleAddBlogPostClick() {
+//     const title = "New Blog Post";
+//     const content = "This is the content of the new blog post.";
+//     addBlogPost(title, content);
+// }
 
-// Add event listener to the "Add Blog Post" button
-const addBlogPostButton = document.getElementById("addBlogPostButton");
-addBlogPostButton.addEventListener("click", handleAddBlogPostClick);
+// // Add event listener to the "Add Blog Post" button
+// const addBlogPostButton = document.getElementById("addBlogPostButton");
+// addBlogPostButton.addEventListener("click", handleAddBlogPostClick);
 
-// Example usage
-addBlogPost("My First Blog Post", "This is the content of my first blog post.");
-postImage("https://example.com/image.jpg");
+// // Example usage
+// addBlogPost("My First Blog Post", "This is the content of my first blog post.");
+// postImage("https://example.com/image.jpg");
