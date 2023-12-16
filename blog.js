@@ -22,16 +22,14 @@ function addBlogPost(title, content) {
         title: title,
         content: content
     };
-    blogPosts.push(blogPost);
-    // Call a function to update the blog page with the new post
-    updateBlogPage();
 
     // Make an asynchronous call to an AWS Lambda function with the new blog post in JSON format
-    const lambdaPayload = JSON.stringify(blogPost);
-
+    const lambdaPayload = blogPost;
+    console.log("AWS Lambda payload:" + lambdaPayload);
+    
     fetch(`https://y3vpihpmxktz35sbweou2zfgty0xpsza.lambda-url.us-east-2.on.aws`, {
-        method: "POST",
-        body: lambdaPayload
+        method: 'POST',
+        payload: JSON.stringify(lambdaPayload)
     })
     .then(response => {
         if (!response.ok) {
