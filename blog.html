@@ -3,6 +3,7 @@
 <head>
     <title>Jason Melick's Blog</title>
     <link rel="stylesheet" href="blog.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -32,7 +33,8 @@
 
         <form id="blogForm">
             <input type="text" id="titleInput" placeholder="Enter blog post title">
-            <textarea id="contentInput" placeholder="Enter blog post content"></textarea>
+            <!-- Replace the textarea with a div to hold the Quill editor -->
+            <div id="editor-container"></div>
             <input type="file" accept="image/*">
             <button type="submit" id="addPostButton">Add Blog Post</button>
         </form>
@@ -41,7 +43,7 @@
     <footer>
         <p>&copy; 2022 Jason Melick. All rights reserved.</p>
     </footer>
-    
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
     <script src="blog.js"></script>
 </body>
 </html>

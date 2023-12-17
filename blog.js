@@ -1,4 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Quill
+    const quill = new Quill('#editor-container', {
+        theme: 'snow' // You can customize the theme if needed
+    });
+
+    // Event listener for the Add Blog Post button
+    const addButton = document.getElementById('addPostButton');
+    addButton.addEventListener('click', function(event) {
+        event.preventDefault(); // Prevents the default form submission
+
+        // Get the title and content from the input fields and Quill editor
+        const title = document.getElementById('titleInput').value;
+        const content = quill.root.innerHTML; // Get HTML content from Quill editor
+
+        addBlogPost(title, content);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
     getBlogPostsFromLambda();
 
     // Event listener for the Add Blog Post button
@@ -17,14 +36,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Function to add a blog post
 function addBlogPost(title, content) {
-    // Use an array to store the blog posts
+    // Use an object to store the blog post
     const blogPost = {
         title: title,
         content: content
     };
     // Make an asynchronous call to an AWS Lambda function with the new blog post in JSON format
     const lambdaPayload = blogPost;
-    console.log("AWS Lambda payload:" + lambdaPayload);
+    console.log("AWS Lambda payload:", lambdaPayload);
     
     fetch(`https://tdw5fwrn33.execute-api.us-east-2.amazonaws.com/StoreBlogInputData`, {
         method: 'POST',
@@ -50,10 +69,9 @@ function addBlogPost(title, content) {
     });
 }
 
-
 function populateBlogs(data) {
     try {
-        console.log("AWS Lambda response: ", data); // Check the structure of the received data
+        console.log("AWS Lambda response:", data); // Check the structure of the received data
 
         const blogContainer = document.getElementById("blogContainer");
         if (!blogContainer) {
@@ -61,7 +79,7 @@ function populateBlogs(data) {
         }
 
         // Assuming data is already an array of blog post objects
-        data.forEach(blogPost => {
+        data.reverse().forEach(blogPost => {
             // Create elements for each blog post
             const newBlogPost = document.createElement("article");
             newBlogPost.classList.add("blog-post");
@@ -69,32 +87,22 @@ function populateBlogs(data) {
             const titleElement = document.createElement("h2");
             titleElement.textContent = blogPost.title;
 
-            const contentElement = document.createElement("p");
-            contentElement.textContent = blogPost.content;
+            const contentElement = document.createElement("div"); // Changed 'p' to 'div' to render Quill content
+            contentElement.innerHTML = blogPost.content; // Use innerHTML to render Quill content
 
             newBlogPost.appendChild(titleElement);
             newBlogPost.appendChild(contentElement);
 
             blogContainer.appendChild(newBlogPost);
         });
+        
     } catch (error) {
         // Handle any errors that occurred during DOM manipulation
         console.error("Error:", error);
     }
 }
 
-
-
-// Function to post an image
-function postImage(imageUrl) {
-    // Code to post the image to a server or storage
-    // For example, you can use an API to upload the image
-    // Here, we are just logging the image URL for demonstration purposes
-    console.log("Image posted:", imageUrl);
-}
-
 // Function to update the blog page
-
 function getBlogPostsFromLambda() {
     const lambdaFunctionName = "RetrieveBlogPosts";
 
@@ -115,19 +123,3 @@ function getBlogPostsFromLambda() {
         console.error("Error:", error);
     });
 }
-
-
-// // Function to handle the click event of the "Add Blog Post" button
-// function handleAddBlogPostClick() {
-//     const title = "New Blog Post";
-//     const content = "This is the content of the new blog post.";
-//     addBlogPost(title, content);
-// }
-
-// // Add event listener to the "Add Blog Post" button
-// const addBlogPostButton = document.getElementById("addBlogPostButton");
-// addBlogPostButton.addEventListener("click", handleAddBlogPostClick);
-
-// // Example usage
-// addBlogPost("My First Blog Post", "This is the content of my first blog post.");
-// postImage("https://example.com/image.jpg");
