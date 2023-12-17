@@ -1,19 +1,21 @@
-/* CSS styles for the blog */
+/* Dark theme for the blog */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #333; /* Dark background color */
+    color: #ddd; /* Light text color */
 }
 
 header {
-    background-color: #280202;
+    background-color: #003333; /* Teal background color */
     color: #fff;
     padding: 20px;
     text-align: center;
 }
 
 nav {
-    background-color: #333;
+    background-color: #222; /* Darker background color */
     color: #fff;
     padding: 10px;
     text-align: center;
@@ -31,14 +33,18 @@ main {
 
 article {
     margin-bottom: 20px;
+    background-color: #444; /* Darker background color for articles */
+    padding: 15px;
+    border-radius: 5px;
 }
 
 h2 {
-    color: #333;
+    color: #ddd; /* Light heading color */
 }
 
 p {
     line-height: 1.5;
+    color: #ccc; /* Light paragraph text color */
 }
 
 form {
@@ -50,10 +56,12 @@ textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
+    background-color: #555; /* Darker background color for input fields */
+    color: #ddd; /* Light text color for input fields */
 }
 
 button {
-    background-color: #333;
+    background-color: #003333; /* Teal button color */
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -61,8 +69,25 @@ button {
 }
 
 footer {
-    background-color: #333;
-    color: #fff;
+    background-color: #222; /* Darker background color for footer */
+    color: #ccc; /* Light text color for footer */
     padding: 20px;
     text-align: center;
+}
+
+/* Specific styles for code snippets */
+pre.ql-syntax {
+    background-color: #fff; /* White background for code snippets */
+    color: #333; /* Dark text color for code snippets */
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto; /* Enable horizontal scrolling */
+}
+
+/* Adjust other styles for better code snippet visibility */
+pre.ql-syntax code {
+    color: inherit; /* Inherit color from parent */
+    font-size: inherit; /* Inherit font size */
+    white-space: pre-wrap; /* Preserve line breaks */
+    word-break: normal; /* Prevent word break */
 }
