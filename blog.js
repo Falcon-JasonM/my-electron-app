@@ -43,16 +43,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Event listener for the Add Blog Post button
     const addButton = document.getElementById('addPostButton');
-    addButton.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevents the default form submission
+    if (addButton) {
+        addButton.addEventListener('click', function(event) {
+        event.preventDefault();
 
-        // Get the title and content from the input fields
-        const title = document.getElementById('titleInput').value;
-        const content = document.getElementById('contentInput').value;
+        const titleInput = document.getElementById('titleInput');
+        const contentInput = document.getElementById('contentInput');
 
-        // Call the addBlogPost function with the obtained values
-        addBlogPost(title, content);
+        if (titleInput && contentInput) {
+            const title = titleInput.value;
+            const content = contentInput.value;
+
+            addBlogPost(title, content);
+        } else {
+            console.error('Title or content input element is missing.');
+        }
     });
+} else {
+    console.error('Add Blog Post button element is missing.');
+}
 });
 
 // Function to add a blog post
