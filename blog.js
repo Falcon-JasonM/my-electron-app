@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize highlight.js
+    hljs.initHighlightingOnLoad();
+
     // Initialize Quill editor
     const quill = new Quill('#editor-container', {
         modules: {
