@@ -1,14 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize highlight.js
-    hljs.initHighlightingOnLoad();
-
     // Initialize Quill editor
     const quill = new Quill('#editor-container', {
+        theme: 'snow',
         modules: {
-            syntax: true,              // Include syntax module
-            toolbar: [['code-block']]  // Include button in toolbar
-          },
-        theme: 'snow'
+            syntax: true, // Enable syntax highlighting module
+            toolbar: [
+                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],  // Headers
+                ['bold', 'italic', 'underline'],           // Basic formatting
+                ['link', 'image', 'video'],                // Embeds
+                [{ 'list': 'ordered'}, { 'list': 'bullet' }], // Lists
+                ['code-block'],                            // Code block
+                ['clean']                                  // Clear formatting
+            ]
+        }
     });
 
     const addButton = document.getElementById('addPostButton');
