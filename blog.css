@@ -33,7 +33,7 @@ main {
 
 article {
     margin-bottom: 20px;
-    background-color: #444; /* Darker background color for articles */
+    background-color: #222; /* Darker background color for articles */
     padding: 15px;
     border-radius: 5px;
 }
