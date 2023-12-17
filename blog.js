@@ -22,14 +22,16 @@ function addBlogPost(title, content) {
         title: title,
         content: content
     };
-
     // Make an asynchronous call to an AWS Lambda function with the new blog post in JSON format
     const lambdaPayload = blogPost;
     console.log("AWS Lambda payload:" + lambdaPayload);
     
-    fetch(`https://y3vpihpmxktz35sbweou2zfgty0xpsza.lambda-url.us-east-2.on.aws`, {
+    fetch(`https://tdw5fwrn33.execute-api.us-east-2.amazonaws.com/StoreBlogInputData`, {
         method: 'POST',
-        payload: JSON.stringify(lambdaPayload)
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(lambdaPayload)
     })
     .then(response => {
         if (!response.ok) {
@@ -96,7 +98,7 @@ function postImage(imageUrl) {
 function getBlogPostsFromLambda() {
     const lambdaFunctionName = "RetrieveBlogPosts";
 
-    fetch(`https://axurjmgnt5woguer2ab4wwsqdu0eifrr.lambda-url.us-east-2.on.aws`, {
+    fetch(`https://tdw5fwrn33.execute-api.us-east-2.amazonaws.com/RetrieveBlogPosts`, {
         method: "GET"
     })
     .then(response => {
