@@ -1,20 +1,34 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize Quill
+    // Initialize Quill editor
     const quill = new Quill('#editor-container', {
-        theme: 'snow' // You can customize the theme if needed
+        modules: {
+            syntax: true,              // Include syntax module
+            toolbar: [['code-block']]  // Include button in toolbar
+          },
+        theme: 'snow'
     });
 
-    // Event listener for the Add Blog Post button
     const addButton = document.getElementById('addPostButton');
     addButton.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevents the default form submission
+        event.preventDefault();
 
-        // Get the title and content from the input fields and Quill editor
         const title = document.getElementById('titleInput').value;
-        const content = quill.root.innerHTML; // Get HTML content from Quill editor
+        const content = quill.root.innerHTML;
 
         addBlogPost(title, content);
     });
+
+    // Use MutationObserver to watch for changes in the editor content and handle them
+    const observer = new MutationObserver(() => {
+        const content = quill.root.innerHTML;
+        // Do whatever you need with the updated content here
+        console.log('Content has changed:', content);
+    });
+
+    // Configure the observer to watch for changes in Quill's editor content
+    const editorContainer = document.querySelector('#editor-container');
+    const editorRoot = editorContainer.querySelector('.ql-editor');
+    observer.observe(editorRoot, { childList: true, subtree: true });
 });
 
 document.addEventListener('DOMContentLoaded', function() {
