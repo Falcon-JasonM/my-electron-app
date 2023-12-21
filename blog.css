@@ -91,3 +91,10 @@ pre.ql-syntax code {
     white-space: pre-wrap; /* Preserve line breaks */
     word-break: normal; /* Prevent word break */
 }
+
+.search-right {
+    display: flex;
+    justify-content: flex-end;
+    width: 33%;
+    margin-left: auto;
+}

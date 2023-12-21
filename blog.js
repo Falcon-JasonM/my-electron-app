@@ -1,4 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
+// Do some things as soon as the DOM is ready
+document.addEventListener('DOMContentLoaded', async function () {
     // Initialize Quill editor
     const quill = new Quill('#editor-container', {
         theme: 'snow',
@@ -15,20 +16,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Handle 'Add Blog Post' button click event
     const addButton = document.getElementById('addPostButton');
-    addButton.addEventListener('click', function(event) {
-        event.preventDefault();
+    if (addButton) {
+        addButton.addEventListener('click', async function (event) {
+            event.preventDefault();
 
-        const title = document.getElementById('titleInput').value;
-        const content = quill.root.innerHTML;
+            const title = document.getElementById('titleInput').value;
+            const content = quill.root.innerHTML;
 
-        addBlogPost(title, content);
-    });
+            if (title && content) {
+                await addBlogPost(title, content);
+                
+            } else {
+                console.error('Title or content input is missing.');
+            }
+        });
+    } else {
+        console.error('Add Blog Post button element is missing.');
+    }
 
     // Use MutationObserver to watch for changes in the editor content and handle them
     const observer = new MutationObserver(() => {
         const content = quill.root.innerHTML;
-        // Do whatever you need with the updated content here
+        // Maybe we'll do something with the content here later...
         console.log('Content has changed:', content);
     });
 
@@ -36,51 +47,45 @@ document.addEventListener('DOMContentLoaded', function() {
     const editorContainer = document.querySelector('#editor-container');
     const editorRoot = editorContainer.querySelector('.ql-editor');
     observer.observe(editorRoot, { childList: true, subtree: true });
-});
 
-document.addEventListener('DOMContentLoaded', function() {
     getBlogPostsFromLambda();
-
-    // Event listener for the Add Blog Post button
-    const addButton = document.getElementById('addPostButton');
-    if (addButton) {
-        addButton.addEventListener('click', function(event) {
-        event.preventDefault();
-
-        const titleInput = document.getElementById('titleInput');
-        const contentInput = document.getElementById('contentInput');
-
-        if (titleInput && contentInput) {
-            const title = titleInput.value;
-            const content = contentInput.value;
-
-            addBlogPost(title, content);
-        } else {
-            console.error('Title or content input element is missing.');
-        }
-    });
-} else {
-    console.error('Add Blog Post button element is missing.');
-}
 });
 
-// Function to add a blog post
-function addBlogPost(title, content) {
-    // Use an object to store the blog post
-    const blogPost = {
-        title: title,
-        content: content
-    };
-    // Make an asynchronous call to an AWS Lambda function with the new blog post in JSON format
-    const lambdaPayload = blogPost;
-    console.log("AWS Lambda payload:", lambdaPayload);
-    
-    fetch(`https://tdw5fwrn33.execute-api.us-east-2.amazonaws.com/StoreBlogInputData`, {
-        method: 'POST',
+async function addBlogPost(title, content) {
+    try {
+        const blogPost = { title, content };
+        const lambdaPayload = JSON.stringify(blogPost);
+        console.log("AWS Lambda payload:", lambdaPayload);
+
+        const response = await fetch('https://tdw5fwrn33.execute-api.us-east-2.amazonaws.com/StoreBlogInputData', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: lambdaPayload
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        console.log("addBlogPost Lambda response:", response); // Check the structure of the received data
+        // refresh the blog posts
+        getBlogPostsFromLambda();
+        // Clear the input fields
+        document.getElementById('titleInput').value = "";
+        document.getElementById('editor-container').firstElementChild.innerHTML = "";
+        
+    } catch (error) {
+        console.error("Error:", error);
+    }
+}
+
+function getBlogPostsFromLambda() {
+    fetch(`https://tdw5fwrn33.execute-api.us-east-2.amazonaws.com/RetrieveBlogPosts?page=1`, {
+        method: "GET",
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(lambdaPayload)
     })
     .then(response => {
         if (!response.ok) {
@@ -90,11 +95,8 @@ function addBlogPost(title, content) {
     })
     .then(data => {
         populateBlogs(data);
-        // After successfully adding the post, fetch and display all blog posts again
-        getBlogPostsFromLambda();
     })
     .catch(error => {
-        // Handle any errors that occurred during the request
         console.error("Error:", error);
     });
 }
@@ -107,7 +109,8 @@ function populateBlogs(data) {
         if (!blogContainer) {
             throw new Error("Blog container not found in the DOM.");
         }
-
+        // Clear the blog container
+        blogContainer.innerHTML = "";
         // Assuming data is already an array of blog post objects
         data.reverse().forEach(blogPost => {
             // Create elements for each blog post
@@ -132,24 +135,57 @@ function populateBlogs(data) {
     }
 }
 
-// Function to update the blog page
-function getBlogPostsFromLambda() {
-    const lambdaFunctionName = "RetrieveBlogPosts";
+// Handle 'Search' button click event
+const searchButton = document.getElementById('searchButton');
+if (searchButton) {
+    searchButton.addEventListener('click', async function (event) {
+        event.preventDefault();
 
-    fetch(`https://tdw5fwrn33.execute-api.us-east-2.amazonaws.com/RetrieveBlogPosts`, {
-        method: "GET"
-    })
-    .then(response => {
+        const searchTerm = document.getElementById('searchInput').value;
+
+        if (isValidSearchTerm(searchTerm)) {
+            await searchBlogPosts(searchTerm);
+        } else {
+            console.error('Search term is invalid.');
+        }
+    });
+} else {
+    console.error('Search button element is missing.');
+}
+
+// ...
+
+function isValidSearchTerm(searchTerm) {
+    // Use a regular expression to validate the search term
+    const regex = /^[a-zA-Z0-9() ]+$/;
+    return regex.test(searchTerm);
+}
+
+async function searchBlogPosts(searchTerm) {
+    try {
+        if (!isValidSearchTerm(searchTerm)) {
+            console.error('Invalid search term.');
+            return;
+        }
+
+        // You can use the searchTerm to perform a search
+        // You might want to send a request to your backend (Java Lambda) to retrieve filtered blog posts
+        // Example:
+        const response = await fetch(`https://tdw5fwrn33.execute-api.us-east-2.amazonaws.com/RetrieveBlogPosts?searchTerm=${searchTerm}`, {
+            method: "GET",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        return response.json();
-    })
-    .then(data => {
-        populateBlogs(data);
-    })
-    .catch(error => {
-        // Handle any errors that occurred during the request
+
+        const data = await response.json();
+        populateBlogs(data); // Update the displayed blog posts with the search results
+        
+    } catch (error) {
         console.error("Error:", error);
-    });
+    }
 }
