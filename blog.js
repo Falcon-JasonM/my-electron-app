@@ -81,7 +81,7 @@ async function addBlogPost(title, content) {
 }
 
 function getBlogPostsFromLambda() {
-    fetch(`https://tdw5fwrn33.execute-api.us-east-2.amazonaws.com/RetrieveBlogPosts?page=1`, {
+    fetch(`https://tdw5fwrn33.execute-api.us-east-2.amazonaws.com/RetrieveBlogPosts`, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json'
@@ -112,7 +112,7 @@ function populateBlogs(data) {
         // Clear the blog container
         blogContainer.innerHTML = "";
         // Assuming data is already an array of blog post objects
-        data.reverse().forEach(blogPost => {
+        data.forEach(blogPost => {
             // Create elements for each blog post
             const newBlogPost = document.createElement("article");
             newBlogPost.classList.add("blog-post");
@@ -153,8 +153,6 @@ if (searchButton) {
     console.error('Search button element is missing.');
 }
 
-// ...
-
 function isValidSearchTerm(searchTerm) {
     // Use a regular expression to validate the search term
     const regex = /^[a-zA-Z0-9() ]+$/;
@@ -168,9 +166,7 @@ async function searchBlogPosts(searchTerm) {
             return;
         }
 
-        // You can use the searchTerm to perform a search
-        // You might want to send a request to your backend (Java Lambda) to retrieve filtered blog posts
-        // Example:
+        // Use the search term to query the API
         const response = await fetch(`https://tdw5fwrn33.execute-api.us-east-2.amazonaws.com/RetrieveBlogPosts?searchTerm=${searchTerm}`, {
             method: "GET",
             headers: {

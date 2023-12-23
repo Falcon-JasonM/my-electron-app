@@ -10,32 +10,32 @@ body {
 header {
     background-color: #003333; /* Teal background color */
     color: #fff;
-    padding: 20px;
+    padding: 1.25em;
     text-align: center;
 }
 
 nav {
     background-color: #222; /* Darker background color */
     color: #fff;
-    padding: 10px;
+    padding: 0.625em;
     text-align: center;
 }
 
 nav a {
     color: #fff;
     text-decoration: none;
-    margin: 0 10px;
+    margin: 0 0.625em;
 }
 
 main {
-    margin: 20px;
+    margin: 1.25em;
 }
 
 article {
-    margin-bottom: 20px;
+    margin-bottom: 1.25em;
     background-color: #222; /* Darker background color for articles */
-    padding: 15px;
-    border-radius: 5px;
+    padding: 0.9375em;
+    border-radius: 0.3125em;
 }
 
 h2 {
@@ -48,14 +48,14 @@ p {
 }
 
 form {
-    margin-top: 20px;
+    margin-top: 1.25em;
 }
 
 input,
 textarea {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
+    padding: 0.625em;
+    margin-bottom: 0.625em;
     background-color: #555; /* Darker background color for input fields */
     color: #ddd; /* Light text color for input fields */
 }
@@ -63,7 +63,7 @@ textarea {
 button {
     background-color: #003333; /* Teal button color */
     color: #fff;
-    padding: 10px 20px;
+    padding: 0.625em 1.25em;
     border: none;
     cursor: pointer;
 }
@@ -71,7 +71,7 @@ button {
 footer {
     background-color: #222; /* Darker background color for footer */
     color: #ccc; /* Light text color for footer */
-    padding: 20px;
+    padding: 1.25em;
     text-align: center;
 }
 
@@ -79,8 +79,8 @@ footer {
 pre.ql-syntax {
     background-color: #fff; /* White background for code snippets */
     color: #333; /* Dark text color for code snippets */
-    padding: 15px;
-    border-radius: 5px;
+    padding: 0.9375em;
+    border-radius: 0.3125em;
     overflow-x: auto; /* Enable horizontal scrolling */
 }
 
@@ -92,9 +92,39 @@ pre.ql-syntax code {
     word-break: normal; /* Prevent word break */
 }
 
-.search-right {
+/* Styling for search container */
+.search-container {
     display: flex;
     justify-content: flex-end;
-    width: 33%;
+    align-items: center; /* Center items vertically */
+    background-color: #222; /* Darker background color for search container */
+    /*padding: 1em 1em 1em 1em; /* Adjust padding as needed */
+    border-radius: 0.3125em;
+    margin-bottom: 1.25em;
+    margin-right: 1.25em; /* Adjust margin as needed */
+    width: calc(100%); /* Calculate the width minus the normal border (1em on each side) */
+}
+
+/* Styling for search input */
+.search-input {
+    /*padding: 0.625em;*/
+    margin-right: 0.625em; /* Adjust margin as needed */
+    margin-top: 0.625em; /* Adjust margin as needed */
+    background-color: #555; /* Darker background color for input fields */
+    color: #ddd; /* Light text color for input fields */
+    border: none;
+    border-radius: 0.3125em;
+    width: 30em;
+}
+
+/* Styling for search button */
+.search-button {
+    padding: 0.625em 0em; /* Adjust vertical and horizontal padding */
+    background-color: #003333; /* Teal button color */
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.3125em;
     margin-left: auto;
+    margin-right: 0.3125em;
 }
